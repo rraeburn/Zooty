@@ -7,7 +7,7 @@ var Photo = require('../models/Photo'),
 module.exports = function(app, appSecret) {
   app.use(bodyparser);
   
-  app.post('/upload', eat_auth(appSecret), function(req,res) {
+  app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.header.phoneId || req.body.phoneId;
     newPhoto.photoUrl = req.body.photoUrl;
@@ -18,7 +18,7 @@ module.exports = function(app, appSecret) {
     });
   });
 
-  app.get('/stats', function(req, res) {
+  app.get('/stats', eat_auth.validateToken(appSecret), function(req, res) {
     Photo.find({phoneId: req.body.phoneId}, function(err, data) {
       if(err) return res.status(500).send({msg: 'could not find photo'});
 
@@ -26,4 +26,32 @@ module.exports = function(app, appSecret) {
     });
   });
 
+  app.post('/home', function(req, res) {
+    eat_auth.generateToken((req.header.phoneId || req.body.phoneId), appSecret, function (err, data) {
+      if (err) return res.status(500).send({msg: 'could not generate token'});
+
+      res.json({token: data});
+    });
+  });
+
+  app.get('/vote', eat_auth.validateToken(appSecret), function(req, res) {
+    Photo.find({}, function(err, data) {
+      if(err) return res.status(500).send({msg: 'could not get photos'});
+
+      res.json(data);
+    });
+  });
+
+  app.put('/vote/:id', eat_auth.validateToken(appSecret), function(req, res) {
+    var updatedPhoto = req.body;
+    delete updatedPhoto._id;
+    if (updatedPhoto.votes.up) {
+      updatedPhoto.votes.upTally += 1;
+    } else {
+      updatedPhoto.votes.downTally += 1;
+    }
+    Photo.update({_id: req.params.id}, updatedPhoto, function(err) {
+      if (err) return res.status(500).send({msg: 'could not vote'});
+    });
+  });
 };

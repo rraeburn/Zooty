@@ -8,8 +8,10 @@ var photoSchema = new mongoose.Schema({
   phoneId: String,
   photoUrl: String,
   votes : {
-    up: Number,
-    down: Number
+    up: {type: Boolean, default: false},
+    down: {type: Boolean, default: false},
+    upTally: {type: Number, min: 0},
+    downTally: {type: Number, min: 0}
   }
 });
 
@@ -17,10 +19,5 @@ var photoSchema = new mongoose.Schema({
 photoSchema.methods.generateHash = function(phoneId) {
   return bcrypt.hashSync(phoneId, bcrypt.genSaltSync(8), null);
 };**/
-
-
-photoSchema.methods.generateToken = function(appSecret, callback) {
-  eat.encode({id: this.phoneId}, appSecret, callback);
-};
 
 module.exports = mongoose.model('Photo', photoSchema);
