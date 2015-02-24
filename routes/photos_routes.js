@@ -5,11 +5,11 @@ var Photo = require('../models/Photo'),
     bodyparser = require('body-parser');
 
 module.exports = function(app, appSecret) {
-  app.use(bodyparser);
+  app.use(bodyparser.json());
   
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
-    newPhoto.phoneId = req.header.phoneId || req.body.phoneId;
+    newPhoto.phoneId = req.phoneId;
     newPhoto.photoUrl = req.body.photoUrl;
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
@@ -19,7 +19,7 @@ module.exports = function(app, appSecret) {
   });
 
   app.get('/stats', eat_auth.validateToken(appSecret), function(req, res) {
-    Photo.find({phoneId: req.body.phoneId}, function(err, data) {
+    Photo.find({phoneId: req.phoneId}, function(err, data) {
       if(err) return res.status(500).send({msg: 'could not find photo'});
 
       res.json(data);
@@ -44,14 +44,19 @@ module.exports = function(app, appSecret) {
 
   app.put('/vote/:id', eat_auth.validateToken(appSecret), function(req, res) {
     var updatedPhoto = req.body;
+    var message;
     delete updatedPhoto._id;
     if (updatedPhoto.votes.up) {
-      updatedPhoto.votes.upTally += 1;
+      updatedPhoto.votes.upTally++;
+      message = 'nice!';
     } else {
-      updatedPhoto.votes.downTally += 1;
+      updatedPhoto.votes.downTally++;
+      message = 'boo!';
     }
     Photo.update({_id: req.params.id}, updatedPhoto, function(err) {
       if (err) return res.status(500).send({msg: 'could not vote'});
+
+      res.json({msg: message});
     });
   });
 };

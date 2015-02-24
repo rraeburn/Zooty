@@ -1,7 +1,6 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    bcrypt = require('bcrypt'),
     eat = require('eat');
 
 var photoSchema = new mongoose.Schema({
