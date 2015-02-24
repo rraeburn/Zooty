@@ -6,12 +6,8 @@ var mongoose = require('mongoose'),
 var photoSchema = new mongoose.Schema({
   phoneId: String,
   photoUrl: String,
-  votes : {
-    up: {type: Boolean, default: false},
-    down: {type: Boolean, default: false},
-    upTally: {type: Number, min: 0},
-    downTally: {type: Number, min: 0}
-  }
+  up: Number,
+  down: Number
 });
 
 /** -- test w/out hashing first
