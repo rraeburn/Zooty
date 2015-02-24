@@ -20,6 +20,7 @@ describe('zooty api endpoints', function() {
     .send({phoneId: '123'})
     .end(function(err, res) {
       expect(err).to.eql(null);
+      expect(res.body).to.have.property('token');
       testToken = res.body.token;
       done();
     });
