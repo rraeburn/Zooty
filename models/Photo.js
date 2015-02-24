@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
 var photoSchema = new mongoose.Schema({
   phoneId: String,
   photoUrl: String,
-  up: Number,
-  down: Number
+  up: {type: Number, default: 0},
+  down: {type: Number, default: 0}
 });
 
 /** -- test w/out hashing first
