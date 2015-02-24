@@ -37,9 +37,8 @@ describe('zooty api endpoints', function() {
     .send({token: testToken, photoUrl: 'test IT', phoneId: '123'})
     .end(function(err, res) {
       expect(err).to.eql(null);
-      expect(res.body).to.have.property('_id');
-      expect(res.body.photoUrl).to.eql('test IT');
-      expect(res.body.phoneId).to.eql('test');
+      expect(res.body.img).to.eql('test IT');
+      expect(res.body.msg).to.eql('photo uploaded');
       done();
     });
   });
