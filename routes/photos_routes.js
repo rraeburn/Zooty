@@ -27,12 +27,13 @@ module.exports = function(app, appSecret) {
   });
 
   app.post('/home/:phoneId', function(req, res) {
-    eat_auth.generateToken(req.params.phoneId, appSecret, function (err, data) {
-      if (err) return res.status(500).send({msg: 'could not generate token'});
+    if(!(req.params.phoneId.length === 36)) return res.status(500).send({msg: 'could not generate token'});
+      eat_auth.generateToken(req.params.phoneId, appSecret, function (err, data) {
+        if (err) return res.status(500).send({msg: 'could not generate token'});
 
-      res.json({token: data});
+        res.json({token: data});
+      });
     });
-  });
 
   app.get('/vote', eat_auth.validateToken(appSecret), function(req, res) {
     Photo.find({}, function(err, data) {
