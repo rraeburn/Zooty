@@ -38,6 +38,7 @@ describe('photos route end points', function() {
     .send({token: testToken, photoUrl: 'test IT', phoneId: testPhoneId})
     .end(function(err, res) {
       expect(err).to.eql(null);
+      expect(res.body.img).to.be.a('array');
       expect(res.body.msg).to.eql('photo uploaded');
       done();
     });
