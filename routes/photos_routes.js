@@ -26,8 +26,8 @@ module.exports = function(app, appSecret) {
     });
   });
 
-  app.post('/home', function(req, res) {
-    eat_auth.generateToken((req.header.phoneId || req.body.phoneId), appSecret, function (err, data) {
+  app.post('/home/:phoneId', function(req, res) {
+    eat_auth.generateToken(req.params.phoneId, appSecret, function (err, data) {
       if (err) return res.status(500).send({msg: 'could not generate token'});
 
       res.json({token: data});

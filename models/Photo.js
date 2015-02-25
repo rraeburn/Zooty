@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     eat = require('eat');
 
 var photoSchema = new mongoose.Schema({
-  phoneId: String,
+  phoneId: {type: String, required: true},
   photoUrl: String,
   up: {type: Number, default: 0},
   down: {type: Number, default: 0}
