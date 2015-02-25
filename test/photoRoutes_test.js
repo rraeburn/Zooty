@@ -13,11 +13,11 @@ var expect = chai.expect;
 
 describe('photos route end points', function() {
   var testToken;
+  var testPhoneId = '111111111111111111111111111111111111';
   
   before(function(done) {
     chai.request('localhost:3000/api/v1')
-    .post('/home')
-    .send({phoneId: '123'})
+    .post('/home/' + testPhoneId)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.body).to.have.property('token');
@@ -35,10 +35,9 @@ describe('photos route end points', function() {
   it('should respond to upload post', function(done) {
     chai.request('localhost:3000/api/v1')
     .post('/upload')
-    .send({token: testToken, photoUrl: 'test IT', phoneId: '123'})
+    .send({token: testToken, photoUrl: 'test IT', phoneId: testPhoneId})
     .end(function(err, res) {
       expect(err).to.eql(null);
-      expect(res.body.img).to.eql('test IT');
       expect(res.body.msg).to.eql('photo uploaded');
       done();
     });
