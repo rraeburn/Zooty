@@ -9,9 +9,6 @@ module.exports = function(app, appSecret) {
   app.use(bodyparser.json());
 
   app.post('/vote/:id', eat_auth.validateToken(appSecret), function(req, res) {
-    // if (Vote.find({userId: req.phoneId, photoUrl: req.body.photoUrl}, null, function(err,data){}).length) {
-    //   res.json({msg: 'you have already voted!'});
-    // } else {
       var newVote = new Vote();
       newVote.userId = req.phoneId;
       newVote.photoUrl = req.body.photoUrl;
@@ -31,9 +28,5 @@ module.exports = function(app, appSecret) {
         });
         res.json({msg: 'you registered ' + data.registeredVote});
       });
-    // }
   });
-
-  
-
 };
