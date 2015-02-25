@@ -41,22 +41,4 @@ module.exports = function(app, appSecret) {
       res.json(data);
     });
   });
-
-  // app.put('/vote/:id', eat_auth.validateToken(appSecret), function(req, res) {
-  //   var updatedPhoto = req.body;
-  //   var message;
-  //   delete updatedPhoto._id;
-  //   if (updatedPhoto.votes.up) {
-  //     updatedPhoto.votes.upTally++;
-  //     message = 'nice!';
-  //   } else {
-  //     updatedPhoto.votes.downTally++;
-  //     message = 'boo!';
-  //   }
-  //   Photo.update({_id: req.params.id}, updatedPhoto, function(err) {
-  //     if (err) return res.status(500).send({msg: 'could not vote'});
-
-  //     res.json({msg: message});
-  //   });
-  // });
 };
