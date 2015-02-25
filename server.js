@@ -5,7 +5,7 @@ var express = require('express'),
     voteRoutes = require('./routes/vote_routes'),
     photosRoutes = require('./routes/photos_routes');
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/photos_dev');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/photos_dev');
 
 var app = express();
 app.set('appSecret', process.env.SECRET || 'photosphotosphotos');
