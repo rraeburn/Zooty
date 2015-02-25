@@ -11,7 +11,7 @@ chai.use(chaihttp);
 
 var expect = chai.expect;
 
-describe('zooty api endpoints', function() {
+describe('photos route end points', function() {
   var testToken;
   
   before(function(done) {
@@ -52,6 +52,18 @@ describe('zooty api endpoints', function() {
       expect(err).to.eql(null);
       expect(Array.isArray(res.body)).to.eql(true);
       expect(res.body[0]).to.have.property('photoUrl');
+      done();
+    });
+  });
+
+  it('should get stats', function(done) {
+    chai.request('localhost:3000/api/v1')
+    .get('/stats')
+    .send({token: testToken})
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.body[0]).to.have.property('phoneId');
+      expect(res.body[0]).to.have.property('_id');
       done();
     });
   });

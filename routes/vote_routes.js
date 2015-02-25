@@ -20,14 +20,13 @@ module.exports = function(app, appSecret) {
         if(err) return res.status(500).send({msg: 'could not register vote'});
         Vote.count({photoUrl: newVote.photoUrl, registeredVote: data.registeredVote}, function(err, data) {
           if(err) return res.status(500).send({msg: 'could not register vote'});
+          
           if (newVote.registeredVote == 'up') {
-          Photo.update({photoUrl: newVote.photoUrl}, {up : data}, function(err, result) {
-            console.log('updated up');
-          });
+            Photo.update({photoUrl: newVote.photoUrl}, {up : data}, function(err, result) {
+            });
           } else {
-          Photo.update({photoUrl: newVote.photoUrl}, {down : data}, function(err, result) {
-            console.log('updated down');
-          });
+            Photo.update({photoUrl: newVote.photoUrl}, {down : data}, function(err, result) {
+            });
           }
         });
         res.json({msg: 'you registered ' + data.registeredVote});
