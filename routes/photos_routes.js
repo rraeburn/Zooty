@@ -10,11 +10,11 @@ module.exports = function(app, appSecret) {
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
-    newPhoto.photoUrl = req.body;
+    newPhoto.photoUrl = req.body.photoUrl;
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
 
-      res.status(200).send({msg: 'photo uploaded', img: data});
+      res.status(200).send({msg: 'photo uploaded', img: data.photoUrl});
     });
   });
 
