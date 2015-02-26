@@ -6,12 +6,12 @@ var Photo = require('../models/Photo'),
     bodyparser = require('body-parser');
 
 module.exports = function(app, appSecret) {
-  app.use(bodyparser.json({limit: '50mb'}));
+  app.use(bodyparser.json());
   
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
-    var newBuff = new Buffer(req.body.photoFile, 'base64');
+    var newBuff = new Buffer(req.body.photoFile);
     fs.writeFileSync('./public/'+ newPhoto._id + '.png', newBuff, 'base64');
     newBuff = null;
     newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.png';
