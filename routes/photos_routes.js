@@ -6,14 +6,14 @@ var Photo = require('../models/Photo'),
     bodyparser = require('body-parser');
 
 module.exports = function(app, appSecret) {
-  app.use(bodyparser.json());
+  app.use(bodyparser.json({limit: '50mb'}));
   
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
-    var imageBuff = new Buffer(req.body.photoFile, 'utf8');
-    fs.writeFileSync('./public/'+ newPhoto._id + '.png', imageBuff);
-    newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.png';
+    var newBuff = new Buffer(req.body.photoFile, 'base64');
+    fs.writeFileSync('./public/'+ newPhoto._id + '.png', newBuff, 'base64');
+    newPhoto.photoUrl = 'http://localhost:3000/' + newPhoto._id + '.png';
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
 
