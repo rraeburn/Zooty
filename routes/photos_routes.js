@@ -17,7 +17,7 @@ module.exports = function(app, appSecret) {
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
 
-      res.status(200).send({msg: 'photo uploaded', img: data.photoUrl});
+      res.json({msg: 'photo uploaded', img: data.photoUrl});
     });
   });
 
