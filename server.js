@@ -18,6 +18,7 @@ voteRoutes(voteRouter, app.get('appSecret'));
 
 app.use('/api/v1', photosRouter);
 app.use('/api/v1', voteRouter);
+app.use(express.static('public'));
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('listening on ' + (process.env.PORT || 3000));
