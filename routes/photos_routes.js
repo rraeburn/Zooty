@@ -12,9 +12,9 @@ module.exports = function(app, appSecret) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
     var newBuff = new Buffer(req.body.photoFile);
-    fs.writeFileSync('./public/'+ newPhoto._id + '.jpg', newBuff, 'binary');
+    fs.writeFileSync('./public/'+ newPhoto._id + '.jpg', newBuff, 'base64');
     newBuff = null;
-    newPhoto.photoUrl = 'http://localhost:3000/' + newPhoto._id + '.jpg';
+    newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.jpg';
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
 
