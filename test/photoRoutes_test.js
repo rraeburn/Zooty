@@ -35,7 +35,7 @@ describe('photos route end points', function() {
   it('should respond to upload post', function(done) {
     chai.request('localhost:3000/api/v1')
     .post('/upload')
-    .send({token: testToken, photoUrl: 'test IT', phoneId: testPhoneId})
+    .send({token: testToken, photoFile: 'test IT', phoneId: testPhoneId})
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.body.img).to.be.a('string');
