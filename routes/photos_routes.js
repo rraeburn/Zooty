@@ -21,7 +21,7 @@ module.exports = function(app, appSecret) {
   });
 
   app.get('/stats', eat_auth.validateToken(appSecret), function(req, res) {
-    Photo.find({phoneId: req.phoneId}, function(err, data) {
+    Photo.find({}, function(err, data) {
       if(err) return res.status(500).send({msg: 'could not find photo'});
 
       res.json(data);
