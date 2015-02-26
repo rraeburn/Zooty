@@ -11,7 +11,7 @@ module.exports = function(app, appSecret) {
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
-    var imageBuff = new Buffer(req.body.photoFile, 'utf-8');
+    var imageBuff = new Buffer(req.body.photoFile, 'utf8');
     fs.writeFileSync('./public/'+ newPhoto._id + '.png', imageBuff);
     newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.png';
     newPhoto.save(function(err, data) {
