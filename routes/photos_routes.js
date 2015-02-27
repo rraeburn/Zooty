@@ -6,7 +6,7 @@ var Photo = require('../models/Photo'),
     bodyparser = require('body-parser');
 
 module.exports = function(app, appSecret) {
-  app.use(bodyparser.json());
+  app.use(bodyparser.json({limit:'50mb'}));
   
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
