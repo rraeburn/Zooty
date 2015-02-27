@@ -14,6 +14,7 @@ module.exports = function(app, appSecret) {
     //newPhoto.photoUrl = req.body.photoFile;
     var myBuff = new Buffer(req.body.photoFile, 'base64');
     fs.writeFileSync('./public/' + newPhoto._id + '.jpg', myBuff, 'base64');
+    newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.jpg';
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
 
