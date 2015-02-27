@@ -11,10 +11,11 @@ module.exports = function(app, appSecret) {
   app.post('/upload', eat_auth.validateToken(appSecret), function(req,res) {
     var newPhoto = new Photo();
     newPhoto.phoneId = req.phoneId;
-    var fuckyou = req.body.photoFile.toString('binary');
-    var newBuff = new Buffer(fuckyou, 'binary');
+    var photoString = req.body.photoFile.toString('binary');
+    var newBuff = new Buffer(photoString, 'binary');
     fs.writeFileSync('./public/'+ newPhoto._id + '.png', newBuff, 'binary');
     newBuff = null;
+    photoString = null;
     newPhoto.photoUrl = 'http://zooty.herokuapp.com/' + newPhoto._id + '.png';
     newPhoto.save(function(err, data) {
       if(err) return res.status(500).send({msg: 'could not upload photo'});
