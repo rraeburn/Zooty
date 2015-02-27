@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var photoSchema = new mongoose.Schema({
   phoneId: {type: String, required: true},
-  photoUrl: String,
+  photoUrl: Buffer,
   up: {type: Number, default: 0},
   down: {type: Number, default: 0}
 });
