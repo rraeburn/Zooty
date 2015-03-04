@@ -40,3 +40,5 @@ req.method = 'POST'
 ```
 req.method = 'GET'
 ```
+
+Worked with Callum Song to create this project
